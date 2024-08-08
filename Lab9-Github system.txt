@@ -1,0 +1,82 @@
+create database github;
+
+create table users(
+    id int primary key,
+    username varchar(25) not null unique,
+    email varchar(25) not null unique,
+    password varchar(25) not null,
+    created_at datetime default timestamp(current_date)
+);
+
+create table repositories(
+    id int primary key,
+    user_id int,
+    title varchar(25) not null unique,
+    visibility varchar(10) not null check (visibility='public' or visibility='private'),
+    readme_file_content varchar(255),
+    created_at datetime default timestamp(current_date),
+    foreign key(user_id) references users(id)
+);
+
+create table branches(
+    id int primary key,
+    repository_id int,
+    branch_name varchar(25) not null unique,
+    number_of_commits int default 0,
+    created_at datetime default timestamp(current_date),
+    foreign key(repository_id) references repositories(id)
+);
+
+create table files(
+    id int primary key,
+    branch_id int,
+    file_name varchar(25) not null unique,         #file size in bytes
+    file_size int not null check ( file_size>0 and file_size<=104857600 ),
+    added_at datetime default timestamp(current_date),
+    foreign key(branch_id) references branches(id)
+);
+
+#insert
+insert into users (id, username, email, password) values(
+       1,'user1','user1@gmail.com','AS123456a'),(
+       2,'user2','user2@gmail.com','qiurfwwh'),(
+       3,'user3','user3@gmail.com','iuwrgf532'),(
+       4,'user4','user4@gmail.com','123ff321'),(
+       5,'user5','user5@gmail.com','sswa1234'
+);
+
+insert into repositories (id, user_id, title, visibility, readme_file_content) values(
+       1,1,'Test Web app','private','this is a web application project'),(
+       2,1,'UI/UX project','private','This is a project for my UI/UX bootcamp'),(
+       3,2,'File management app','public','this is an open-source file management app' ),(
+       4,3,'Lab9','public','' ),(
+       5,4,'Video editor','public','this is an open source video edit program for windows V 1.0.0'
+);
+
+insert into branches (id, repository_id, branch_name) values(
+       1,1,'Connect to database'),(
+       2,2,'Add logos'),(
+       3,3,'add logs after crash'),(
+       4,3,'Add video management'),(
+       5,5,'bug fixes'
+);
+
+insert into files (id, branch_id, file_name, file_size) values(
+       1,1,'pom.xml',2306 ),(
+       2,1,'connection.java',1441),(
+       3,3,'FileManagement.exe',91870),(
+       4,4,'properties.ini',932),(
+       5,5,'uConfig.pas',4536
+);
+
+#Delete
+delete from users where id = 5;
+
+delete from files where id= 1;
+
+#Update
+update files set file_name='DatabaseConnection.java' where id =2;
+
+update repositories set readme_file_content='this is an open-source file management app (outdated)' where id=3;
+
+update repositories set visibility='public' , title='Website application' where id=1;
