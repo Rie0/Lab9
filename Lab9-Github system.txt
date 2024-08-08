@@ -69,12 +69,11 @@ insert into files (id, branch_id, file_name, file_size) values(
        5,5,'uConfig.pas',4536
 );
 
-#Delete
-delete from users where id = 5;
-
-delete from files where id= 1;
-
 #Update
+update users set password='fghd83326@@' where id =1;
+
+update branches set branch_name='Add pictures' where id = 2;
+
 update files set file_name='DatabaseConnection.java' where id =2;
 
 update repositories set readme_file_content='this is an open-source file management app (outdated)' where id=3;
@@ -87,3 +86,12 @@ select * from users;
 select * from repositories where user_id=1;
 
 select branch_name from branches where repository_id=3;
+
+#Delete
+delete from users where id = 5;
+
+delete from files where id= 1;
+
+delete from files where branch_id=1;
+
+delete from branches where id=1;
