@@ -80,3 +80,10 @@ update files set file_name='DatabaseConnection.java' where id =2;
 update repositories set readme_file_content='this is an open-source file management app (outdated)' where id=3;
 
 update repositories set visibility='public' , title='Website application' where id=1;
+
+#Select
+select * from users;
+
+select * from repositories where user_id=1;
+
+select branch_name from branches where repository_id=3;
